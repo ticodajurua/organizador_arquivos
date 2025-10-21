@@ -1,0 +1,29 @@
+name: Build Windows Executable
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Instalar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Instalar PyInstaller
+      run: pip install pyinstaller
+
+    - name: Gerar executável
+      run: pyinstaller --onefile --windowed main.py
+
+    - name: Upload do executável
+      uses: actions/upload-artifact@v3
+      with:
+        name: octa-organizador
+        path: dist/main.exe
